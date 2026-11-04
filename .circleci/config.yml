@@ -27,11 +27,23 @@ jobs:
    - run: mkdir -p "${GOPATH_BASE}"
    - run: mkdir -p "${GOPATH_HEAD}/bin"
        
+   #- run:
+   #   name: Testing application
+   #   command: |
+   #       go test \
+   #       github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}
+
    - run:
       name: Testing application
       command: |
-          go test \
-          github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}
+          go test ./...
+
+   - run:
+      name: Build application
+      command: |
+          go install
+          mkdir -p bin
+          cp "/go/bin/${CIRCLE_PROJECT_REPONAME}" bin/invoicer
 
    - deploy:
        name: Build and push Docker image
