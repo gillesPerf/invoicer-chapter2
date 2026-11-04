@@ -38,14 +38,7 @@ jobs:
       command: |
           go test ./...
 
-   #- run:
-   #   name: Build application
-   #   command: |
-   #       go install
-   #       mkdir -p bin
-   #       cp "/go/bin/${CIRCLE_PROJECT_REPONAME}" bin/invoicer
-
-   - deploy:
+   - run:
        name: Build and push Docker image
        command: |
          if [ "${CIRCLE_BRANCH}" == "master" ]; then
