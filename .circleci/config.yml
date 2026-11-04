@@ -38,18 +38,21 @@ jobs:
       command: |
           go test ./...
 
-   - run:
-      name: Build application
-      command: |
-          go install
-          mkdir -p bin
-          cp "/go/bin/${CIRCLE_PROJECT_REPONAME}" bin/invoicer
+   #- run:
+   #   name: Build application
+   #   command: |
+   #       go install
+   #       mkdir -p bin
+   #       cp "/go/bin/${CIRCLE_PROJECT_REPONAME}" bin/invoicer
 
    - deploy:
        name: Build and push Docker image
        command: |
          if [ "${CIRCLE_BRANCH}" == "master" ]; then
-           docker login -u ${DOCKER_USER} -p ${DOCKER_PASS};
+           #docker login -u ${DOCKER_USER} -p ${DOCKER_PASS};
+           echo "${DOCKER_PASS}" | docker login \
+             -u "${DOCKER_USER}" \
+             --password-stdin
            go install --ldflags '-extldflags "-static"';
            #go install --ldflags '-extldflags "-static"' \
            #github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME};
